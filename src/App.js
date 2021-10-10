@@ -3,9 +3,9 @@ import react, {Component} from 'react'
 import Overview from './components/Overview';
 
 const TASKS = [
-  "Do the dishes",
-  "Take out the garbage",
-  "Go grocery shopping."
+  {id: 0, desc:"Do the dishes"},
+  {id: 1, desc:"Take out the garbage"},
+  {id: 2, desc:"Go grocery shopping."}
 ]
 
 class App extends Component {
@@ -19,18 +19,26 @@ class App extends Component {
     e.preventDefault();
     console.log("firing callback from app...");
     
-    let task = document.querySelector(".task-add-field").value;
-    if (task != null) {
-      let currentTasks = this.state.tasks;
-      this.setState({tasks: currentTasks.push(task)})
+    let taskDesc = document.querySelector(".task-add-field").value;
+    if (taskDesc != null) {       
+      let newTask = {id: this.state.tasks.length, desc: taskDesc};
+      let tasks = this.state.tasks;
+      this.setState({
+        tasks: tasks.concat(newTask)
+      });
     }
+  }
+
+  // Because setState doesn't call all the time. 
+  componentDidUpdate() {
+    console.log(this.state.tasks);
   }
 
   render() {
     return (
       <div className="App">
         <h1>Task Overview </h1>
-        <Overview tasks={TASKS} submitHandler={this.onTaskSubmit.bind(this)}/>
+        <Overview tasks={this.state.tasks} submitHandler={this.onTaskSubmit.bind(this)}/>
       </div>
     );
   }

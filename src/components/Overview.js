@@ -10,22 +10,24 @@ const Input = ({submitHandler}) => {
   );
 }
 
+const Tasks = ({tasks}) => {
+  const taskElements = tasks.map((task) => {
+    return (<li key={task.id} className="task">{task.desc}</li>)
+  });
+  
+  return (
+    <ol className="tasks">
+      {taskElements}
+    </ol>
+  );
+}
+
+
 class Overview extends Component {
   render() {
-    const taskElements = [];
-    this.props.tasks.forEach((task, index) => {
-      let taskView = (
-        <li className="task">{task}</li>
-      );
-
-      taskElements.push(taskView);
-    })
-
     return (
       <div className="overview">
-        <ol className="tasks">
-          {taskElements}
-        </ol>
+        <Tasks tasks={this.props.tasks} />
         <Input submitHandler={this.props.submitHandler} />
       </div>
     )
