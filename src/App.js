@@ -2,6 +2,8 @@ import {Component} from 'react'
 
 import Overview from './components/Overview';
 
+const saveKey = "tasks";
+
 const TASKS = [
   {id: 0, desc:"Do the dishes"},
   {id: 1, desc:"Take out the garbage"},
@@ -11,8 +13,14 @@ const TASKS = [
 class App extends Component {
   constructor(props) {
     super(props);
+      
+    const tasks = JSON.parse(localStorage.getItem(saveKey)) ?? TASKS;
     
-    this.state = {tasks: TASKS};
+    this.state = {tasks: tasks};
+    
+    window.onbeforeunload = () => {
+      localStorage.setItem(saveKey, JSON.stringify(this.state.tasks));
+    };
   }
 
   onTaskSubmit(e) {
