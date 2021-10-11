@@ -46,7 +46,12 @@ const EditTaskForm = ({onEditTask, task}) => {
   }
 
   const onTaskEditSubmit = (e) => {
-    onEditTask(e);
+    e.preventDefault();
+    let form = e.currentTarget.parentNode;
+    let id = parseInt(form.querySelector(".task-edit-id").value);
+    let newDesc = form.querySelector(".task-edit-field").value;
+
+    onEditTask(id, newDesc);
     toggleEditTaskForm(e);
   }
 

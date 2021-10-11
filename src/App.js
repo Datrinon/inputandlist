@@ -40,13 +40,7 @@ class App extends Component {
     console.log(this.state.tasks);
   }
 
-  editTask(e) {
-    console.log("Callbacku.")
-    e.preventDefault();
-    let form = e.currentTarget.parentNode;
-    let id = parseInt(form.querySelector(".task-edit-id").value);
-    let newDesc = form.querySelector(".task-edit-field").value;
-
+  editTask(id, newDesc) {
     this.setState((state) => {
       let updatedTasks = state.tasks.map(task => {
         if (task.id === id) {
