@@ -1,6 +1,6 @@
 import {Component} from 'react'
-
 import Overview from './components/Overview';
+
 
 const saveKey = "tasks";
 
@@ -40,7 +40,6 @@ class App extends Component {
     console.log(this.state.tasks);
   }
 
-
   editTask(e) {
     console.log("Callbacku.")
     e.preventDefault();
@@ -60,6 +59,14 @@ class App extends Component {
     })
   }
 
+  deleteTask(id) {
+    this.setState((state) => {
+      let updatedTasks = state.tasks.filter(task => (task.id !== id));
+
+      return {tasks: updatedTasks};
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -68,6 +75,7 @@ class App extends Component {
           tasks={this.state.tasks}
           submitHandler={this.onTaskSubmit.bind(this)}
           editTask={this.editTask.bind(this)}
+          deleteTask={this.deleteTask.bind(this)}
           />
       </div>
     );
