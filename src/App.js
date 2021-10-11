@@ -1,4 +1,4 @@
-import react, {Component} from 'react'
+import {Component} from 'react'
 
 import Overview from './components/Overview';
 
@@ -17,14 +17,12 @@ class App extends Component {
 
   onTaskSubmit(e) {
     e.preventDefault();
-    console.log("firing callback from app...");
     
     let taskDesc = document.querySelector(".task-add-field").value;
     if (taskDesc != null) {       
       let newTask = {id: this.state.tasks.length, desc: taskDesc};
-      let tasks = this.state.tasks;
-      this.setState({
-        tasks: tasks.concat(newTask)
+      this.setState((state) => {
+        return {tasks: state.tasks.concat(newTask)};
       });
     }
   }
@@ -34,11 +32,35 @@ class App extends Component {
     console.log(this.state.tasks);
   }
 
+
+  editTask(e) {
+    console.log("Callbacku.")
+    e.preventDefault();
+    let form = e.currentTarget.parentNode;
+    let id = parseInt(form.querySelector(".task-edit-id").value);
+    let newDesc = form.querySelector(".task-edit-field").value;
+
+    this.setState((state) => {
+      let updatedTasks = state.tasks.map(task => {
+        if (task.id === id) {
+          task.desc = newDesc;
+        }
+        return task;
+      });
+
+      return {tasks: updatedTasks}
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Task Overview </h1>
-        <Overview tasks={this.state.tasks} submitHandler={this.onTaskSubmit.bind(this)}/>
+        <Overview
+          tasks={this.state.tasks}
+          submitHandler={this.onTaskSubmit.bind(this)}
+          editTask={this.editTask.bind(this)}
+          />
       </div>
     );
   }
